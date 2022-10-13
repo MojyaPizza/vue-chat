@@ -1,37 +1,5 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
-      <v-spacer></v-spacer>
-
-      <v-icon>mdi-square</v-icon>
-
-      <v-icon>mdi-circle</v-icon>
-
-      <v-icon>mdi-triangle</v-icon>
-    </v-system-bar>
-
-    <v-navigation-drawer v-model="drawer" app>
-      <v-sheet color="grey lighten-4" class="pa-4">
-        <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
-
-        <div>john@vuetifyjs.com</div>
-      </v-sheet>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-item v-for="[icon, text] in links" :key="icon" link>
-          <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
     <v-main>
       <v-container class="py-8 px-6" fluid>
         <v-row>
@@ -46,9 +14,7 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                      <v-list-item-title>Message {{ n }}</v-list-item-title>
-
-                      <v-list-item-subtitle>
+                      <v-list-item-subtitle class="message">
                         Lorem ipsum dolor sit amet, consectetur adipisicing
                         elit. Nihil repellendus distinctio similique
                       </v-list-item-subtitle>
@@ -66,14 +32,26 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-textarea
+        append-icon="mdi-comment"
+        class="mx-2"
+        label="Send a message"
+        rows="3"
+        auto-grow
+      ></v-textarea>
     </v-main>
   </v-app>
 </template>
 
 <script>
 export default {
+  created() {
+    this.user_id = this.$route.query.user_id;
+    console.log("user_id", this.user_id);
+  },
   data: () => ({
-    cards: ["Today", "Yesterday"],
+    user_id: "",
+    cards: ["Today"],
     drawer: null,
     links: [
       ["mdi-inbox-arrow-down", "Inbox"],
@@ -84,3 +62,9 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+.message {
+  text-align: left;
+}
+</style>
