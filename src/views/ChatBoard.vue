@@ -48,19 +48,25 @@
 </template>
 
 <script>
+import firebase from "@/firebase/firebase";
+
 export default {
-  created() {
+  async created() {
     this.user_id = this.$route.query.user_id;
     console.log("user_id", this.user_id);
+
+    const chatRef = firebase.firestore().collection("chats");
+    console.log("chatRef", chatRef);
+    const snapShot = await chatRef.get();
+    console.log("snapShot", snapShot);
+
+    snapShot.forEach((doc) => {
+      console.log(doc.data());
+      this.messages.push(doc.data());
+    });
   },
   data: () => ({
-    messages: [
-      { message: "message1" },
-      { message: "message2" },
-      { message: "message3" },
-      { message: "message4" },
-      { message: "message5" },
-    ],
+    messages: [],
     body: "",
     user_id: "",
     cards: ["Today"],
